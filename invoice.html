@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Your Company Invoice</title>
+
+		<style>
+			.invoice-box {
+				max-width: 800px;
+				margin: auto;
+				padding: 30px 30px 10px 30px;
+				border: 1px solid #eee;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+				font-size: 16px;
+				line-height: 24px;
+				font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+				color: #555;
+			}
+
+			.invoice-box table {
+				width: 100%;
+				line-height: inherit;
+				text-align: left;
+			}
+
+			.footer {
+				font-size: 10px;
+				text-align: center;
+			}
+
+			.footer-hidden {
+				display: none;
+			}
+			.smallfont {
+				font-size: 14px;
+			}
+
+			.invoice-box table td {
+				padding: 5px;
+				vertical-align: top;
+			}
+
+			.invoice-box table tr td:nth-child(2) {
+				text-align: right;
+				width: 15%;
+			}
+
+			.invoice-box table tr td:nth-child(3) {
+				text-align: right;
+				width: 15%;
+			}
+
+			.invoice-box table tr td:nth-child(4) {
+				text-align: right;
+				width: 15%;
+			}
+
+			.invoice-box table tr.top table td {
+				padding-bottom: 20px;
+			}
+
+			.invoice-box table tr.top table td.title {
+				font-size: 45px;
+				line-height: 45px;
+				color: #333;
+			}
+
+			.invoice-box table tr.information table td {
+				padding-bottom: 40px;
+			}
+
+			.invoice-box table tr.heading td {
+				background: #eee;
+				border-bottom: 1px solid #ddd;
+				font-weight: bold;
+			}
+
+			.invoice-box table tr.details td {
+				padding-bottom: 20px;
+			}
+
+			.invoice-box table tr.item-first td {
+				border-top: 2px solid #555;
+			}
+
+			.invoice-box table tr.item-not-first td {
+				border-top: 1px solid white;
+			}
+
+			.invoice-box table tr.item.last td {
+				border-bottom: none;
+			}
+
+			/** RTL **/
+			.invoice-box.rtl {
+				direction: rtl;
+				font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+			}
+
+			.invoice-box.rtl table {
+				text-align: right;
+			}
+
+
+			.invoice-status-all {
+				position: absolute;
+				margin: 0 auto;
+				padding: 5px 10px;
+				transform: rotate(-20deg);
+				-webkit-transform: rotate(-20deg);
+				-moz-transform: rotate(-20deg);
+				-o-transform: rotate(-20deg);
+				border-radius: 10px;
+				font-weight: bold;
+				text-transform: uppercase;
+				border: 4px solid darkgreen; /* for testing */
+				color: darkgreen; /* for testing */
+
+			}
+
+			.invoice-status-draft {
+				border: 4px solid #555 !important;
+				color: #555 !important;
+			}
+
+			.invoice-status-unpaid {
+				border: 4px solid maroon !important;
+				color: maroon !important;
+			}
+
+			.invoice-status-paid, .invoice-status-free, .invoice-status-trial {
+				border: 4px solid darkgreen !important;
+				color: darkgreen !important;
+			}
+
+			td.left {
+				text-align: left !important;
+			}
+
+			span.secret-code {
+				text-transform: uppercase;
+				color: #fff;
+				border-radius: 4px;
+				cursor: pointer;
+				box-shadow: var(--button-box-shadow);
+				min-width: 110px;
+				text-align: center;
+				margin: 0px;
+				padding: 1px 5px 1px 5px;
+				font-family: Consolas,monospace;
+				text-decoration: none;
+				font-size: 12px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="invoice-box">
+			<table cellpadding="0" cellspacing="0">
+				<tr class="top">
+					<td colspan="4">
+						<table>
+							<tr>
+								<td class="title">
+									<img  src="https://html2pdfrocket.com/content/images/your-logo-here.jpg" style="width: 100%; max-width: 200px; max-height: 200px" />
+								</td>
+								<td style="white-space: nowrap;"><b>Invoice</b><br>
+									{{invoice_number}}<br/>
+									{{billing_date}}
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+
+				<tr class="information">
+					<td colspan="4">
+						<table>
+							<tr>
+								<td>
+									{{name}}<br />
+									{{addressLine1}} {{addressLine2}}<br />
+									{{city}} {{postalCode}}<br />
+									{{state}} {{country}}<br />
+									{{email}}<br />
+								</td>
+								<td>
+									<div class="invoice-status-all invoice-status-{{status}}">{{status}}</div>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+
+				<tr class="heading">
+					<td>Description</td>
+					<td>Qty</td>
+					<td>Price</td>
+					<td>Amount</td>
+				</tr>
+
+				<div id="items">
+					{{items}}
+			    </div>
+				<tr class="total item-first">
+					<td></td>
+					<td colspan="2">Sub Total:</td>
+					<td>{{subTotal}}</td>
+				</tr>
+				<tr class="total">
+					<td></td>
+					<td colspan="2">Tax:</td>
+					<td>{{tax}}</td>
+				</tr>
+				<tr class="total">
+					<td></td>
+					<td colspan="2">Total:</td>
+					<td>{{total}}</td>
+				</tr>
+			</table>
+			<div><br><br></div>
+			<div class="footer">Your Company 123 Main St, Orlando, FL USA</div>
+			<div class="footer{{hidden}}"><a href={{downloadUrl}}>Download Pdf</a></div>
+		</div>
+	</body>
+</html>
