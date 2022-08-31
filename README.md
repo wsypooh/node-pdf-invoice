@@ -1,5 +1,3 @@
-# node-pdf-invoice
-
 ===================
  Node Pdf Invoice
 ===================
